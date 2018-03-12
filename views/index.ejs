@@ -2,8 +2,18 @@
 <html>
 <head>
 	<title>Web Game</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<script type="text/javascript" src="/script.js"></script>
 </head>
 <body>
-	<h3>Hello World</h3>
+	<table>
+	<% for (var y = 0; y < 10; y++) { %>
+		<tr>
+		<% for (var x = 0; x < 10; x++) { %>
+			 <td id='<%= x + ',' + y %>' onclick="toggleBackground(<%= x + ', ' + y %>)"></td>
+		<% } %>
+		</tr>
+	<% } %>
+	</table>
 </body>
 </html>

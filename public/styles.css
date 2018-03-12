@@ -1,0 +1,17 @@
+
+table, td {
+	border: 1px solid black;
+	padding: 25px;
+}
+
+td:hover {
+	background-color: yellow;
+}
+
+td:active {
+	background-color: green;
+}
+
+td:focus:after {
+	background-color: blue;
+}
