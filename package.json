@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/KevinSShaffer/webgame#readme",
   "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.3",
     "socket.io": "^2.0.4"
   }
 }
