@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KevinSShaffer/webgame/issues"
   },
-  "homepage": "https://github.com/KevinSShaffer/webgame#readme"
+  "homepage": "https://github.com/KevinSShaffer/webgame#readme",
+  "dependencies": {
+    "socket.io": "^2.0.4"
+  }
 }
