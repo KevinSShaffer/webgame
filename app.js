@@ -11,5 +11,16 @@ app.get('/', (req, res) => {
 	res.render('index')
 });
 
+io.on('connection', (socket) => {
+	console.log('a user connected');
+
+	socket.on('setBackground', (cell) => {
+		io.emit('setBackground', cell);
+	});
+
+	socket.on('disconnect', () => {
+		console.log('a user disconnected');
+	});
+});
+
 http.listen(3000, () => console.log('Example app listening on port 3000.'));
-//app.listen(3000, () => console.log('Example app listening on port 3000.'));
