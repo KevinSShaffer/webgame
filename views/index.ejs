@@ -4,6 +4,7 @@
 	<title>Web Game</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css">
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript" src="/script.js"></script>
 </head>
 <body>
@@ -16,5 +17,12 @@
 		</tr>
 	<% } %>
 	</table>
+	<input type="text" autocomplete="off" id="name" value="Guest">
+	<ul id="chat_messages">
+		
+	</ul>
+	<form action="">
+		<input autocomplete="off" type="text" id="message"><button>Send</button>
+	</form>
 </body>
 </html>

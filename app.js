@@ -12,14 +12,18 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-	console.log('a user connected');
+	socket.broadcast.emit('userJoined');
 
 	socket.on('setBackground', (cell) => {
 		io.emit('setBackground', cell);
 	});
 
+	socket.on('sendMessage', (message) => {
+		io.emit('sendMessage', message);
+	});
+
 	socket.on('disconnect', () => {
-		console.log('a user disconnected');
+		socket.broadcast.emit('userLeft');
 	});
 });
 
