@@ -32,7 +32,9 @@ socket.on('userTyping', (users) => {
 	var message = ''
 	
 	users.forEach((element) => {
-		message += element + ' is typing...  '
+		if (element !== $('#name').val()) {
+			message += element + ' is typing...  '
+		}
 	});
 
 	$('#isTyping').text(message);
