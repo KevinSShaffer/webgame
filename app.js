@@ -21,20 +21,22 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('sendMessage', (message) => {
-		usersTyping = usersTyping.filter(user => user !== message.name);
 		socket.broadcast.emit('sendMessage', message);
+		usersTyping = usersTyping.filter(user => user.id !== socket.id);
 		io.emit('userTyping', usersTyping);
 	});
 
 	socket.on('disconnect', () => {
 		socket.broadcast.emit('userLeft');
+		usersTyping = usersTyping.filter(user => user.id !== socket.id);
+		socket.broadcast.emit('userTyping', usersTyping);
 	});
 
 	socket.on('userTyping', (message) => {
 		if (!message.text) {
-			usersTyping = usersTyping.filter(user => user !== message.name);
-		} else if (!usersTyping.includes(message.name)) {
-			usersTyping.push(message.name);
+			usersTyping = usersTyping.filter(user => user.id !== socket.id);
+		} else if (!usersTyping.some((user) => user.id === socket.id)) {
+			usersTyping.push({ id: socket.id, name: message.name });
 		}
 
 		socket.broadcast.emit('userTyping', usersTyping);

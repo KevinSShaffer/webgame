@@ -29,15 +29,9 @@ socket.on('sendMessage', (message) => {
 });
 
 socket.on('userTyping', (users) => {
-	var message = ''
-	
-	users.forEach((element) => {
-		if (element !== $('#name').val()) {
-			message += element + ' is typing...  '
-		}
-	});
-
-	$('#isTyping').text(message);
+	$('#isTyping').text(users.filter(user => user.id !== socket.id)
+		.map(user => user.name + ' is typing...')
+		.join(' '));
 });
 
 $(function () {
