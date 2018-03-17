@@ -25,16 +25,28 @@ socket.on('setBackground', (cell) => {
 });
 
 socket.on('sendMessage', (message) => {
-	var ul = document.getElementById('chat_messages');
-	var li = document.createElement('li');
-	li.appendChild(document.createTextNode(message.name + ': ' + message.text));
-	ul.appendChild(li);
+	$('#chat_messages').append($('<li>').text(message.name + ': ' + message.text));
+});
+
+socket.on('userTyping', (users) => {
+	var message = ''
+	
+	users.forEach((element) => {
+		message += element + ' is typing...  '
+	});
+
+	$('#isTyping').text(message);
 });
 
 $(function () {
 	$('form').submit(function() {
 		socket.emit('sendMessage', { name: $('#name').val(), text: $('#message').val() });
+		$('#chat_messages').append($('<li>').text('You: ' + $('#message').val()));		
 		$('#message').val('');
 		return false;
+	});
+
+	$('#message').on('input', () => {
+		socket.emit('userTyping', { name: $('#name').val(), text: $('#message').val() });
 	});
 });
