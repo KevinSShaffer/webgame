@@ -45,4 +45,8 @@ $(function () {
 	$('#message').on('input', () => {
 		socket.emit('userTyping', { name: $('#name').val(), text: $('#message').val() });
 	});
+
+	$('#name').on('input', () => {
+		socket.emit('changingName', $('#name').val());
+	});
 });

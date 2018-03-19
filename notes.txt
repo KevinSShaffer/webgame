@@ -1,0 +1,44 @@
+
+Attributes:
+	speed - place in the turn order (units with the same "turn order" go at the same time?)
+	intimidation - likelyhood of being attacked
+	distance - range of attack (unit is assumed to be at this distance away from then "front line")
+	splash - how many units are effected in a "group"
+	physical power - limits damage with physical weapons
+	magical power - limits damage with magical weapons
+
+Definitions:
+	turn order - the order in which units act.  units are grouped by speed and ordered from highest to lowest
+	front line - the "group" closest to the front
+	group - units for each side are grouped by distance
+
+
+Units are grouped by distance and ordered by intimidation.  
+In the figure below, the bottom side has no more 0 distance 
+units so the next closest group of units have a range of 1.  
+They are now on the front line.  The top side will now 
+attack the bottom side front line (distance 1) with their 
+highest speed against the highest intimidation.
+
+OOOOO                     4 distance
+-
+OOO                       2 distance
+-
+OOOOO                     0 distance
+========================= front line
+OOOOO                     1 distance
+-
+OOO                       3 distance
+-
+
+Each unit can be set to train one attribute.  The amount of 
+training a unit can do can depend on the item they are using.  
+An example would be the range of a weapon limiting how much 
+a unit could train distance.
+
+Weapon attributes:
+	max speed
+	max distance
+	max splash
+	max physical power
+	max magical power

@@ -5,6 +5,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 var usersTyping = [];
+var connectedUsers = [];
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+	connectedUsers.push({ id: socket.id, name: 'Guest' });
 	socket.broadcast.emit('userJoined');
 
 	socket.on('setBackground', (cell) => {
@@ -21,7 +23,21 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('sendMessage', (message) => {
-		socket.broadcast.emit('sendMessage', message);
+		if (message.text.substring(0, 3) === '/im') {
+			console.log(message);
+			var name = message.text.split(' ').filter(word => word !== '')[1];
+			console.log(name);
+			if (connectedUsers.some((user) => user.name === name)) {
+				console.log('message to: ' +  connectedUsers.find((user) => user.name === name).name + '  from: ' + message.name);
+				message.text = message.text.replace("/im", "hey");
+				socket.broadcast.to(connectedUsers.find((user) => user.name === name).id).emit('sendMessage', message);
+			} else {
+				socket.broadcast.emit('sendMessage', message);
+			}
+		} else {
+			socket.broadcast.emit('sendMessage', message);
+		}
+
 		usersTyping = usersTyping.filter(user => user.id !== socket.id);
 		io.emit('userTyping', usersTyping);
 	});
@@ -29,6 +45,7 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', () => {
 		socket.broadcast.emit('userLeft');
 		usersTyping = usersTyping.filter(user => user.id !== socket.id);
+		connectedUsers = connectedUsers.filter(user => user.id !== socket.id);
 		socket.broadcast.emit('userTyping', usersTyping);
 	});
 
@@ -40,6 +57,11 @@ io.on('connection', (socket) => {
 		}
 
 		socket.broadcast.emit('userTyping', usersTyping);
+	});
+
+	socket.on('changingName', (newName) => {
+		connectedUsers.find(user => user.id === socket.id).name = newName;
+		console.log(connectedUsers);
 	});
 });
 
