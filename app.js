@@ -24,11 +24,9 @@ io.on('connection', (socket) => {
 
 	socket.on('sendMessage', (message) => {
 		if (message.text.substring(0, 3) === '/im') {
-			console.log(message);
 			var name = message.text.split(' ').filter(word => word !== '')[1];
-			console.log(name);
+
 			if (connectedUsers.some((user) => user.name === name)) {
-				console.log('message to: ' +  connectedUsers.find((user) => user.name === name).name + '  from: ' + message.name);
 				message.text = message.text.replace("/im", "hey");
 				socket.broadcast.to(connectedUsers.find((user) => user.name === name).id).emit('sendMessage', message);
 			} else {
@@ -61,7 +59,6 @@ io.on('connection', (socket) => {
 
 	socket.on('changingName', (newName) => {
 		connectedUsers.find(user => user.id === socket.id).name = newName;
-		console.log(connectedUsers);
 	});
 });
 
