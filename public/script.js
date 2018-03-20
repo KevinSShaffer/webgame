@@ -23,30 +23,3 @@ socket.on('userJoined', () => {
 socket.on('setBackground', (cell) => {
 	document.getElementById(cell.x + ',' + cell.y).style.backgroundColor = cell.color;
 });
-
-socket.on('sendMessage', (message) => {
-	$('#chat_messages').append($('<li>').text(message.name + ': ' + message.text));
-});
-
-socket.on('userTyping', (users) => {
-	$('#isTyping').text(users.filter(user => user.id !== socket.id)
-		.map(user => user.name + ' is typing...')
-		.join(' '));
-});
-
-$(function () {
-	$('form').submit(function() {
-		socket.emit('sendMessage', { name: $('#name').val(), text: $('#message').val() });
-		$('#chat_messages').append($('<li>').text('You: ' + $('#message').val()));		
-		$('#message').val('');
-		return false;
-	});
-
-	$('#message').on('input', () => {
-		socket.emit('userTyping', { name: $('#name').val(), text: $('#message').val() });
-	});
-
-	$('#name').on('input', () => {
-		socket.emit('changingName', $('#name').val());
-	});
-});

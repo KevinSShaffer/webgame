@@ -15,7 +15,3 @@ td:active {
 td:focus:after {
 	background-color: blue;
 }
-
-#chat_messages { 
-	list-style-type: none;
-}
